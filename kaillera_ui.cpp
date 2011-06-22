@@ -224,11 +224,10 @@ void kaillera_goutp(char * line){
 	re_append(kaillera_sdlg_RE_GCHAT, line, 0);
 }
 
-
 void __cdecl kaillera_gdebug(char * arg_0, ...) {
 	char V8[1024];
 	char V88[2084];
-	sprintf_s(V8, 1020, "%s\r\n", arg_0);
+	sprintf_s(V8, 1021, "%s\r\n", arg_0);
 	va_list args;
 	va_start (args, arg_0);
 	vsnprintf_s(V88, 2084, 2082, V8, args);
@@ -239,7 +238,7 @@ void __cdecl kaillera_gdebug(char * arg_0, ...) {
 void __cdecl kaillera_core_debug(char * arg_0, ...) {
 	char V8[1024];
 	char V88[2084];
-	sprintf_s(V8, 1020, "%s\r\n", arg_0);
+	sprintf_s(V8, 1021, "%s\r\n", arg_0);
 	va_list args;
 	va_start (args, arg_0);
 	vsnprintf_s(V88, 2084, 2082, V8, args);
@@ -247,19 +246,19 @@ void __cdecl kaillera_core_debug(char * arg_0, ...) {
 	re_append(kaillera_sdlg_partchat, V88, 0x333333);
 }
 void __cdecl kaillera_ui_motd(char * arg_0, ...) {
-	//char V8[1024];
+	char V8[1024];
 	char V88[2084];
-	//sprintf_s(V8, 1020, "%s\r\n", arg_0);
+	sprintf_s(V8, 1021, "%s\r\n", arg_0);
 	va_list args;
 	va_start (args, arg_0);
-	vsnprintf_s(V88, sizeof(V88), 2083, "%s\r\n", args);
+	vsnprintf_s(V88, sizeof(V88), 2083, V8, args);
 	va_end (args);
 	re_append(kaillera_sdlg_partchat, V88, 0x00336633);
 }
 void __cdecl kaillera_error_callback(char * arg_0, ...) {
 	char V8[1024];
 	char V88[2084];
-	sprintf_s(V8, 1020, "%s\r\n", arg_0);
+	sprintf_s(V8, 1021, "%s\r\n", arg_0);
 	va_list args;
 	va_start (args, arg_0);
 	vsnprintf_s(V88, 2084, 2082, V8, args);
@@ -271,7 +270,7 @@ void __cdecl kaillera_error_callback(char * arg_0, ...) {
 void __cdecl kaillera_ui_debug(char * arg_0, ...) {
 	char V8[1024];
 	char V88[2084];
-	sprintf_s(V8, 1020, "%s\r\n", arg_0);
+	sprintf_s(V8, 1021, "%s\r\n", arg_0);
 	va_list args;
 	va_start (args, arg_0);
 	vsnprintf_s(V88, 2084, 2082, V8, args);
@@ -283,7 +282,7 @@ void __cdecl kaillera_ui_debug(char * arg_0, ...) {
 void __cdecl kaillera_outpf(char * arg_0, ...) {
 	char V8[1024];
 	char V88[2084];
-	sprintf_s(V8, 1020, "%s\r\n", arg_0);
+	sprintf_s(V8, 1021, "%s\r\n", arg_0);
 	va_list args;
 	va_start (args, arg_0);
 	vsnprintf_s(V88, 2084, 2082, V8, args);
