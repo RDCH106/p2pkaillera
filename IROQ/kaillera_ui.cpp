@@ -759,7 +759,10 @@ void kaillera_player_dropped_callback(char * user, int gdpl){
 }
 void kaillera_game_callback(char * game, char player, char players){
 	if (game!= 0)
-		strcpy(GAME, game);
+	{
+		GAME[150] = '\0'; //rs
+		strncpy(GAME, game, 149); //rs
+	}
 	playerno = player;
 	numplayers = players;
 	//kaillera_gdebug("kaillera_game_callback(%s, %i, %i)", GAME, playerno, numplayers);
@@ -1596,7 +1599,7 @@ void ConnectToServer(char * ip, int port, HWND pDlg,char * name) {
 	}
 	else spoofing = false;
 
-	strcpy(kaillera_sdlg_NAME, name);
+	strncpy(kaillera_sdlg_NAME, name, 127); //rs
 
 	char un[32];
 	GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_USRNAME), un, 32);
@@ -1630,7 +1633,7 @@ void ConnectToServer(char * ip, int port, HWND pDlg,char * name) {
 	if (kaillera_core_initialize(0, APP, un, conset)) {
 		Sleep(150);
 		kaillera_sdlg_port = port;
-		strcpy(kaillera_sdlg_ip, ip);
+		strncpy(kaillera_sdlg_ip, ip, 127); //rs
 		ShowWindow(kaillera_ssdlg, SW_HIDE);
 		DialogBox(hx, (LPCTSTR)KAILLERA_SDLG, /*pDlg*/NULL, (DLGPROC)KailleraServerDialogProc);
 		ShowWindow(kaillera_ssdlg, SW_SHOW);
