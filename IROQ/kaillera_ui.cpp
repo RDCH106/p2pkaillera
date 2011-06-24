@@ -838,7 +838,8 @@ void kaillera_sdlg_join_selected_game(){
 		while (*cx!=0) {
 			int ll;
 			if (strcmp(cx, temp)==0) {
-				strcpy(GAME, temp);
+				GAME[150] = '\0';
+				strncpy(GAME, temp, 149);
 				kaillera_sdlg_gameslv.CheckRow(temp, 128, 2, sel);
 				if (strcmp(temp, APP)!= 0) {
 					if (MessageBox(kaillera_sdlg, "Emulator/version mismatch and the game may desync.\nDo you want to continue?", "Error", MB_YESNO | MB_ICONEXCLAMATION)!=IDYES)
@@ -1612,7 +1613,7 @@ void ConnectToServer(char * ip, int port, HWND pDlg,char * name) {
 		if (kaillera_core_initialize(0, buffrr, un, conset)) {
 		Sleep(150);
 		kaillera_sdlg_port = port;
-		strcpy(kaillera_sdlg_ip, ip);
+		strncpy(kaillera_sdlg_ip, ip, 127); //rs
 		ShowWindow(kaillera_ssdlg, SW_HIDE);
 		DialogBox(hx, (LPCTSTR)KAILLERA_SDLG, /*pDlg*/NULL, (DLGPROC)KailleraServerDialogProc);
 		ShowWindow(kaillera_ssdlg, SW_SHOW);
