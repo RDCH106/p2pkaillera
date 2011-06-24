@@ -900,10 +900,10 @@ LRESULT CALLBACK PM_Proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		case WM_COMMAND:
 			if (LOWORD(wParam)==PM_SEND){
 				//char message[512], text[512]; REQ FIX?
-				char message [1000], text[1000];
-				GetWindowText(GetDlgItem(hDlg,PM_MESSAGE),text,sizeof(message));
+				char message [1038], text[1001];
+				GetWindowText(GetDlgItem(hDlg,PM_MESSAGE),text,1000); //reqchange
 				// send the PM with kaillera_chat_send
-				sprintf(message,"/msg %s %s",uid,text);
+				sprintf_s(message, 1038, "/msg %s %s",uid,text);
 				kaillera_chat_send(message);
 				EndDialog(hDlg, 0);
 			}
