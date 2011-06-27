@@ -760,7 +760,7 @@ void kaillera_player_dropped_callback(char * user, int gdpl){
 void kaillera_game_callback(char * game, char player, char players){
 	if (game!= 0)
 	{
-		GAME[150] = '\0'; //rs
+		//GAME[150] = '\0'; //rs
 		strncpy(GAME, game, 149); //rs
 	}
 	playerno = player;
@@ -838,7 +838,7 @@ void kaillera_sdlg_join_selected_game(){
 		while (*cx!=0) {
 			int ll;
 			if (strcmp(cx, temp)==0) {
-				GAME[150] = '\0';
+				//GAME[150] = '\0';
 				strncpy(GAME, temp, 149);
 				kaillera_sdlg_gameslv.CheckRow(temp, 128, 2, sel);
 				if (strcmp(temp, APP)!= 0) {
@@ -882,7 +882,7 @@ void kaillera_sdlg_show_games_list_menu(HWND handle, bool incjoin = false){
 		if(strcmp("Join", rtgp)==0){
 			kaillera_sdlg_join_selected_game();
 		} else {
-			strcpy(GAME, rtgp);
+			strncpy(GAME, rtgp, 149);
 			kaillera_create_game(GAME);
 		}
 		SetFocus(GetDlgItem(kaillera_sdlg, TXT_GINP));
@@ -1417,8 +1417,8 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 					}
 					int l = strlen(buffrr);
 					if (l>0) {
-						int p = min(l, 10000);
-						char sbf[10010];
+						int p = min(l, 2011);
+						char sbf[2011];
 						memcpy(sbf, buffrr, p);
 						sbf[p] = 0;
 						kaillera_game_chat_send(sbf);
@@ -1482,7 +1482,7 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 				{
 					//unsigned short buffrr[2024];
 					char buffrr[2024];
-					if (GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024));
+					if(GetDlgItem(hDlg, TXT_HOST) != NULL);
 					{
 					
 					GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024);
@@ -1515,11 +1515,11 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 					if (strlen(buffrr) > 0 && strlen(buffrr) < 2000) 
 					{
 					kaillera_create_game(buffrr);
-					//kaillera_kick_user(buffrr);
 					}
-					if (GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024) && strlen(buffrr) <= 0);
-					kaillera_sdlg_show_games_list_menu(hDlg);
+					//if (GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024) && strlen(buffrr) <= 0);
 				}
+					if (GetDlgItem(hDlg, TXT_HOST) == NULL);
+					kaillera_sdlg_show_games_list_menu(hDlg);
 				}
 				else // = 0 --> game mode
 				{

@@ -208,7 +208,7 @@ int WINAPI _gameCallback(char *game, int player, int numplayers){
 			int timee;
 			
 		};
-		GameName[128] = '\0'; //rs
+		//GameName[128] = '\0'; //rs
 		strncpy(GameName, game, 127); //rs 
 		
 		_lwrite(out, "KRC0", 4);
