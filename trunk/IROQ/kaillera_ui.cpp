@@ -27,6 +27,7 @@ HWND kaillera_sdlg_IDC_BEEP;
 extern HWND kaillera_ssdlg;
 extern bool spoofing;
 extern int spoofPing;
+HBRUSH g_hbrBackground = CreateSolidBrush(RGB(175, 0, 0));
 
 // Saves the window position AND join message
 void SaveWindowPos(HWND hwnd)
@@ -607,6 +608,7 @@ void kaillera_game_add_callback(char*gname, unsigned int id, char*emulator, char
 
 	wsprintf(buff,"%u",id);
 	kaillera_sdlg_gameslv.FillRow(buff, 1, x);
+
 	kaillera_sdlg_gameslv.FillRow(emulator, 2, x);
 	kaillera_sdlg_gameslv.FillRow(owner, 3, x);
 	kaillera_sdlg_gameslv.FillRow(GAME_STATUS[status], 4, x);
@@ -761,7 +763,7 @@ void kaillera_game_callback(char * game, char player, char players){
 	if (game!= 0)
 	{
 		//GAME[150] = '\0'; //rs
-		strncpy(GAME, game, 149); //rs
+		strncpy(GAME, game, 100); //rs
 	}
 	playerno = player;
 	numplayers = players;
@@ -838,8 +840,7 @@ void kaillera_sdlg_join_selected_game(){
 		while (*cx!=0) {
 			int ll;
 			if (strcmp(cx, temp)==0) {
-				//GAME[150] = '\0';
-				strncpy(GAME, temp, 149);
+				strcpy(GAME,temp); //this function cannot be upgraded without host problems. ~RS
 				kaillera_sdlg_gameslv.CheckRow(temp, 128, 2, sel);
 				if (strcmp(temp, APP)!= 0) {
 					if (MessageBox(kaillera_sdlg, "Emulator/version mismatch and the game may desync.\nDo you want to continue?", "Error", MB_YESNO | MB_ICONEXCLAMATION)!=IDYES)
@@ -882,7 +883,7 @@ void kaillera_sdlg_show_games_list_menu(HWND handle, bool incjoin = false){
 		if(strcmp("Join", rtgp)==0){
 			kaillera_sdlg_join_selected_game();
 		} else {
-			strncpy(GAME, rtgp, 149);
+			strcpy(GAME, rtgp); //this function cannot be upgraded without game host problems. ~RS
 			kaillera_create_game(GAME);
 		}
 		SetFocus(GetDlgItem(kaillera_sdlg, TXT_GINP));
@@ -1518,7 +1519,8 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 					}
 					//if (GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024) && strlen(buffrr) <= 0);
 				}
-					if (GetDlgItem(hDlg, TXT_HOST) == NULL);
+					//if (GetDlgItem(hDlg, TXT_HOST) == NULL);
+					if (strlen(buffrr) <= 0)
 					kaillera_sdlg_show_games_list_menu(hDlg);
 				}
 				else // = 0 --> game mode
@@ -1833,6 +1835,11 @@ LRESULT CALLBACK AboutDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		EndDialog(hDlg, 0);
 		SetFocus(GetDlgItem(kaillera_ssdlg,CMB_MODE));
 		break;
+		//case WM_CTLCOLORDLG:
+		//return (LONG)g_hbrBackground;
+		//case WM_CTLCOLORSTATIC:
+		//	SetBkMode((HDC)wParam, TRANSPARENT);
+    return (INT_PTR)(HBRUSH)GetStockObject(NULL_BRUSH);
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case BTN_CLOSE:
@@ -1908,7 +1915,8 @@ void ShowMasterSLDialog(HWND hDlg, int type = 0) {
 
 // Controls the Kaillera server select window
 LRESULT CALLBACK KailleraServerSelectDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	HBRUSH g_hbrBackground = CreateSolidBrush(RGB(175, 0, 0));
+	g_hbrBackground = CreateSolidBrush(RGB(175, 0, 0));
+	
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
