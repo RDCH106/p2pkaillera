@@ -127,7 +127,7 @@ bool p2p_add_delay_callback(){
 	//return true;
 }
 void p2p_game_callback(char * game, int playernop, int maxplayersp){
-	GAME[150] = '\0'; //rs
+	//GAME[150] = '\0'; //rs
 	strncpy(GAME, game, 149); //rs 
 	playerno = playernop;
 	numplayers = maxplayersp;
