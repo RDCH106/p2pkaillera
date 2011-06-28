@@ -154,7 +154,6 @@ BEGIN
     LTEXT           "n02 (c) Open Kaillera ""P2P Client""\n IROC Client",IDC_STATIC,9,14,137,17,0,WS_EX_TRANSPARENT
     PUSHBUTTON      "Useage Policy",BTN_USEAGE,45,141,54,10,WS_DISABLED
     PUSHBUTTON      "License",BTN_LICENSE,7,141,38,10,WS_DISABLED
-    CONTROL         113,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,224,22,51,48,WS_EX_DLGMODALFRAME
     LTEXT           "Code by Joshua M. (A.K.A. Requiem/IROC-Z). Contact at kingarmorgator@gmail.com \n \nGeneral security/Auditing by sil3nt_dre4m. Contact at sil3ntdre4m@gmail.com",IDC_STATIC,9,35,205,46
     LTEXT           "Project located at http://code.google.com/p/p2pkaillera/ \n\nKaillera security blog (owned by sil3nt_dre4m):     http://kaillerahacks.blogspot.com\n\nClient based on ""Ownaclient"", featuring tweaks by Ownasaurus",IDC_STATIC,8,87,205,53
 END
@@ -351,13 +350,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_IROCAV              BITMAP                  "C:\\Users\\Josh\\Desktop\\RedIROC.bmp"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
