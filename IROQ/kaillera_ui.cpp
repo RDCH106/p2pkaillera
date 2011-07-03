@@ -763,7 +763,7 @@ void kaillera_game_callback(char * game, char player, char players){
 	if (game!= 0)
 	{
 		//GAME[150] = '\0'; //rs
-		strncpy(GAME, game, 100); //rs
+		strncpy(GAME, game, 128); //rs 
 	}
 	playerno = player;
 	numplayers = players;
@@ -1483,8 +1483,8 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 				{
 					//unsigned short buffrr[2024];
 					char buffrr[2024];
-					if(GetDlgItem(hDlg, TXT_HOST) != NULL);
-					{
+					//if(GetDlgItem(hDlg, TXT_HOST) != NULL); useless if statement
+					//{
 					
 					GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024);
 
@@ -1518,7 +1518,7 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 					kaillera_create_game(buffrr);
 					}
 					//if (GetWindowText(GetDlgItem(hDlg, TXT_HOST), buffrr, 2024) && strlen(buffrr) <= 0);
-				}
+				//}
 					//if (GetDlgItem(hDlg, TXT_HOST) == NULL);
 					if (strlen(buffrr) <= 0)
 					kaillera_sdlg_show_games_list_menu(hDlg);
@@ -1608,11 +1608,22 @@ void ConnectToServer(char * ip, int port, HWND pDlg,char * name) {
 	GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_USRNAME), un, 32);
 	un[31]=0;
 	char conset = SendMessage(kaillera_ssdlg_conset, CB_GETCURSEL, 0, 0) + 1;
-	char buffrr[2024];
+	char buffrr[200];
+	char emuName[200];
 
-	if ((GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_APPNAME), buffrr, 2024)) != NULL)
+	//if ((GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_APPNAME), buffrr, 2024)) != NULL)
+	GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_APPNAME), buffrr, 199);
+
+	if (strlen(buffrr) > 0)
 	{
-		if (kaillera_core_initialize(0, buffrr, un, conset)) {
+		strncpy_s(emuName, 200, buffrr, 199);
+	}
+	else
+	{
+		strncpy_s(emuName, 200, APP, 199);
+	}
+	if (kaillera_core_initialize(0, emuName, un, conset))
+	{
 		Sleep(150);
 		kaillera_sdlg_port = port;
 		strncpy(kaillera_sdlg_ip, ip, 127); //rs
@@ -1630,32 +1641,11 @@ void ConnectToServer(char * ip, int port, HWND pDlg,char * name) {
 		KSSDFA.input = KSSDFA_END_GAME;
 		//core cleanup
 	}
-	}
-	if ((GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_APPNAME), buffrr, 2024)) == NULL) //REQ
+	else 
 	{
-	if (kaillera_core_initialize(0, APP, un, conset)) {
-		Sleep(150);
-		kaillera_sdlg_port = port;
-		strncpy(kaillera_sdlg_ip, ip, 127); //rs
-		ShowWindow(kaillera_ssdlg, SW_HIDE);
-		DialogBox(hx, (LPCTSTR)KAILLERA_SDLG, /*pDlg*/NULL, (DLGPROC)KailleraServerDialogProc);
-		ShowWindow(kaillera_ssdlg, SW_SHOW);
-		ShowWindow(pDlg,SW_SHOW);
-		//disconnect
-		char quitmsg[128];
-		GetWindowText(GetDlgItem(kaillera_ssdlg, IDC_QUITMSG), quitmsg, 128);
-		kaillera_disconnect(quitmsg);
-		kaillera_core_cleanup();
-
-		KSSDFA.state = 0;
-		KSSDFA.input = KSSDFA_END_GAME;
-		//core cleanup
-	}
-	} 
-
-	else {
 		MessageBox(pDlg, "Core Initialization Failed", 0, 0);
 	}
+
 	KAILLERA_CORE_INITIALIZED = false;
 }
 //===============================================================================
@@ -2064,17 +2054,6 @@ LRESULT CALLBACK KailleraServerSelectDialogProc(HWND hDlg, UINT uMsg, WPARAM wPa
 		};
 		return 0;
 }
-
-//char * callback_checkSize(char * msg )
-//{
-//	//char lim[2085];
-//	//lim[2085] = '\0';
-//	//strncpy(lim, msg, 2085);
-//	//char * point = lim[0];
-//
-//	//return point;
-//}
-
 
 
 void kaillera_GUI(){
