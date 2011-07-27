@@ -10,6 +10,8 @@ void kaillera_ui_chat_send(char * xxx);
 
 bool kaillera_RecordingEnabled();
 bool ChatLogEnabled();
+bool GameChatLogEnabled();
 void ChatLog(char * msg);
+void GameChatLog(char * msg);
 
 

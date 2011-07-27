@@ -106,8 +106,10 @@
 #define TXT_HOST                        1083
 #define IDC_APPNAME                     1085
 #define IDC                             1086
-#define IDC_CHECK3                      1089
-#define IDC_CHATL                       1089
+#define IDC_CHECK2                      1088
+#define IDC_CHATL                       1088
+#define IDC_GCL                         1089
+#define CHK_GCL                         1089
 
 // Next default values for new objects
 // 

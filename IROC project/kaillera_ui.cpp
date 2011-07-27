@@ -27,6 +27,9 @@ int beep = 1;
 int timestamp = 1;
 int joinleave = 1;
 bool newSession = false;
+bool roomSession = false;
+char sessionName[35];
+char currentGame[90];
 
 HWND kaillera_sdlg_TXT_MSG;
 HWND kaillera_sdlg_IDC_FLASH;
@@ -37,6 +40,7 @@ extern int spoofPing;
 HBRUSH g_hbrBackground = CreateSolidBrush(RGB(175, 0, 0));
 
 // Saves the window position AND join message
+
 void SaveWindowPos(HWND hwnd)
 {
 	RECT rect;
@@ -244,6 +248,7 @@ nLVw kaillera_sdlg_userslv;
 HWND kaillera_sdlg_partchat;
 
 HWND kaillera_sdlg_CHK_REC;
+HWND kaillera_sdlg_CHK_GCL;
 HWND kaillera_sdlg_RE_GCHAT;
 HWND kaillera_sdlg_TXT_GINP;
 nLVw kaillera_sdlg_LV_GULIST;
@@ -277,12 +282,21 @@ bool ChatLogEnabled()
 		return false;
 }
 
+bool GameChatLogEnabled()
+{
+		if ((SendMessage(GetDlgItem(kaillera_sdlg, CHK_GCL), BM_GETCHECK, 0, 0)) == BST_CHECKED)
+		return true;
+	else
+		return false;
+}
+
 int kaillera_sdlg_MODE;
 bool kaillera_sdlg_toggle = false;
 
 // Called when you join or create a game
 // The toggle flag "true" is passed when the "Swap" button is pressed
 void kaillera_sdlgGameMode(bool toggle = false){
+	roomSession = true;
 
 	if(!toggle)
 	{
@@ -293,6 +307,7 @@ void kaillera_sdlgGameMode(bool toggle = false){
 
 	ShowWindow(kaillera_sdlg_gameslv.handle,SW_HIDE);
 	ShowWindow(kaillera_sdlg_CHK_REC,SW_SHOW);
+	ShowWindow(kaillera_sdlg_CHK_GCL,SW_SHOW);
 	ShowWindow(kaillera_sdlg_RE_GCHAT,SW_SHOW);
 	ShowWindow(kaillera_sdlg_TXT_GINP,SW_SHOW);
 	ShowWindow(kaillera_sdlg_LV_GULIST.handle,SW_SHOW);
@@ -315,6 +330,7 @@ void kaillera_sdlgGameMode(bool toggle = false){
 // Called when you leave a game
 // The toggle flag "true" is passed when the "Swap" button is pressed
 void kaillera_sdlgNormalMode(bool toggle = false){
+	currentGame[0] = '\0';
 
 	if(!toggle)
 	{
@@ -325,6 +341,7 @@ void kaillera_sdlgNormalMode(bool toggle = false){
 	else kaillera_sdlg_toggle = true;
 
 	ShowWindow(kaillera_sdlg_CHK_REC,SW_HIDE);
+	ShowWindow(kaillera_sdlg_CHK_GCL,SW_HIDE);
 	ShowWindow(kaillera_sdlg_RE_GCHAT,SW_HIDE);
 	ShowWindow(kaillera_sdlg_TXT_GINP,SW_HIDE);
 	ShowWindow(kaillera_sdlg_LV_GULIST.handle,SW_HIDE);
@@ -523,6 +540,7 @@ void __cdecl kaillera_gdebug(char * arg_0, ...) //GAMEROOM
 	vsnprintf_s(V88, 2084, 2082, V8, args);
 	va_end (args);
 	kaillera_goutp(V88);
+	GameChatLog(V88);
 }
 
 void __cdecl kaillera_gdebug_green(char * arg_0, ...) //GAMEROOM SERVER
@@ -535,9 +553,11 @@ void __cdecl kaillera_gdebug_green(char * arg_0, ...) //GAMEROOM SERVER
 	vsnprintf_s(V88, 2084, 2082, V8, args);
 	va_end (args);
 	kaillera_goutp(V88, 0x00009900);
+	GameChatLog(V88);
 }
 
-void __cdecl kaillera_gdebug_gray(char * arg_0, ...) {
+void __cdecl kaillera_gdebug_gray(char * arg_0, ...) //JOIN/LEAVE
+{
 	char V8[1024];
 	char V88[2084];
 	sprintf_s(V8, 1020, "%s\r\n", arg_0);
@@ -584,7 +604,7 @@ void __cdecl kaillera_error_callback(char * arg_0, ...) {
 	re_append(kaillera_sdlg_partchat, V88, 0x000000FF);
 }
 
-void __cdecl kaillera_ui_debug(char * arg_0, ...) //JOIN/LEAVE
+void __cdecl kaillera_ui_debug(char * arg_0, ...) //JOIN/LEAVE GAME
 {
 	char V8[1024];
 	char V88[2084];
@@ -595,7 +615,7 @@ void __cdecl kaillera_ui_debug(char * arg_0, ...) //JOIN/LEAVE
 	va_end (args);
 
 	re_append(kaillera_sdlg_partchat, V88, /*0x00777777*/0x660000);
-	ChatLog(V88);
+	GameChatLog(V88);
 }
 
 void __cdecl kaillera_outpf(char * arg_0, ...) //GAME CHAT
@@ -648,7 +668,8 @@ void kaillera_game_create_callback(char*gname, unsigned int id, char*emulator, c
 void kaillera_chat_callback(char*name, char * msg){
 	kaillera_outpf("<%s> %s", name, msg);
 }
-void kaillera_game_chat_callback(char*name, char * msg){
+void kaillera_game_chat_callback(char*name, char * msg)
+{
 	if(!strncmp(name,"Server",6))
 		kaillera_gdebug_green("<%s> %s", name, msg);
 	else kaillera_gdebug("<%s> %s", name, msg);
@@ -702,6 +723,7 @@ void kaillera_user_game_create_callback(){
 	SetScrollRange(kaillera_sdlg_RE_GCHAT,SB_VERT,0,0,false);
 }
 void kaillera_user_game_closed_callback(){
+	roomSession = false;
 	kaillera_sdlgNormalMode();
 }
 
@@ -882,6 +904,7 @@ void kaillera_sdlg_join_selected_game(){
 		}
 		//kaillera_error_callback("The rom '%s' is not in your list.", temp); REQ: HMM. NO.
 		//kaillera_error_callback("This rom is not in your list bro."); DOUBLE REQ
+	strncat(currentGame, temp, 88);
 		if (MessageBox(kaillera_sdlg, "You don't have this rom. Join?", "Error", MB_YESNO | MB_ICONEXCLAMATION)!=IDYES)
 			return;
 		kaillera_join_game(id);
@@ -911,6 +934,7 @@ void kaillera_sdlg_show_games_list_menu(HWND handle, bool incjoin = false){
 		} else {
 			strcpy(GAME, rtgp); //this function cannot be upgraded without game host problems. ~RS
 			kaillera_create_game(GAME);
+			strncat(currentGame, GAME, 88);
 		}
 		SetFocus(GetDlgItem(kaillera_sdlg, TXT_GINP));
 		//EnableWindow(GetDlgItem(kaillera_sdlg,IDC_CREATE),false); // disable create button
@@ -1250,6 +1274,7 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 			//Sleep(100);
 			
 			kaillera_sdlg_CHK_REC = GetDlgItem(hDlg, CHK_REC);
+			kaillera_sdlg_CHK_GCL = GetDlgItem(hDlg, CHK_GCL);
 			kaillera_sdlg_RE_GCHAT = GetDlgItem(hDlg, RE_GCHAT);
 			kaillera_sdlg_TXT_GINP = GetDlgItem(hDlg, TXT_GINP);
 			kaillera_sdlg_LV_GULIST.handle = GetDlgItem(hDlg, LV_GULIST);
@@ -1384,6 +1409,7 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 			SetWindowPos(kaillera_sdlg_BTN_LAGRESET,HWND_TOP,iWidth-115,(int)(vPerc*iHeight)+70,0,0,SWP_NOSIZE);
 
 			SetWindowPos(kaillera_sdlg_CHK_REC,HWND_TOP,iWidth-110,(int)(vPerc*iHeight)+95,0,0,SWP_NOSIZE);
+			SetWindowPos(kaillera_sdlg_CHK_GCL,HWND_TOP,iWidth-65,(int)(vPerc*iHeight)+97,0,0,SWP_NOSIZE); //REQ
 
 			SetWindowPos(kaillera_sdlg_ST_SPEED,HWND_TOP,iWidth-110,(int)(vPerc*iHeight)+117,0,0,SWP_NOSIZE);
 			//SetWindowPos(kaillera_sdlg_ST_DELAY,HWND_TOP,iWidth-110,(int)(vPerc*iHeight)+139,0,0,SWP_NOSIZE);
@@ -1950,6 +1976,7 @@ LRESULT CALLBACK KailleraServerSelectDialogProc(HWND hDlg, UINT uMsg, WPARAM wPa
 			char un[128];
 			nSettings::get_str("USRN", un, USERNAME);
 			strncpy(USERNAME, un, 34);
+			strncpy(sessionName, un, 34); //REQ
 			SetWindowText(GetDlgItem(hDlg, IDC_USRNAME), USERNAME);
 
 			//DWORD xxx = 32;
@@ -2091,8 +2118,8 @@ void ChatLog(char * msg)
 
 	if (newSession == true)
 	{
-		char sessionMark[351];
-		wsprintf(sessionMark, "*================*\r\nNEW CHAT SESSION AT: %s [%s] \r\n*================*\r\n", kaillera_sdlg_ip, kaillera_sdlg_NAME);
+		char sessionMark[391];
+		wsprintf(sessionMark, "*================*\r\nNEW CHAT SESSION AT: %s [%s], with username <%s> \r\n*================*\r\n", kaillera_sdlg_ip, kaillera_sdlg_NAME, sessionName);
 		fLog.write(sessionMark, strlen(sessionMark));
 		newSession = false;
 	}
@@ -2101,6 +2128,25 @@ void ChatLog(char * msg)
 	fLog.write("\r\n", 4);
 	
 	fLog.close();
+	}
+}
+
+void GameChatLog(char * msg)
+{
+	if (GameChatLogEnabled())
+	{
+		fstream fLog;
+		fLog.open("RoomChatLog.txt", fstream::out | fstream::app);
+		if (roomSession == true)
+		{
+		char sessionMark[180];
+		wsprintf(sessionMark, "*================*\r\nNew Game Room: %s \r\n*================*\r\n", currentGame);
+		fLog.write(sessionMark, strlen(sessionMark));
+		roomSession = false;
+		}
+		fLog.write(msg, strlen(msg));
+		fLog.write("\r\n", 4);
+		fLog.close();
 	}
 }
 
