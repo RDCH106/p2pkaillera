@@ -284,7 +284,8 @@ LRESULT CALLBACK ConnectionDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			// top half
 			SetWindowPos(GetDlgItem(hDlg, IDC_RICHEDIT2),HWND_TOP,0,0,iWidth,(int)(0.75*iHeight),0);
-			SetWindowPos(GetDlgItem(hDlg, IDC_CHATI),HWND_TOP,0,(int)(0.75*iHeight),iWidth-62,hTxtBox,0);
+			//SetWindowPos(GetDlgItem(hDlg, IDC_CHATI),HWND_TOP,0,(int)(0.75*iHeight),iWidth-62,hTxtBox,0);
+			SetWindowPos(GetDlgItem(hDlg, IDC_CHAT),HWND_TOP,iWidth-62,(int)(0.75*iHeight),0,0,SWP_NOSIZE);
 			SetWindowPos(GetDlgItem(hDlg, IDC_CHAT),HWND_TOP,iWidth-62,(int)(0.75*iHeight),0,0,SWP_NOSIZE);
 
 			// bottom half

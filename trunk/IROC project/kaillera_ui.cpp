@@ -13,6 +13,12 @@
 #include "common/nSettings.h"
 #include <windowsx.h>
 #include "stdio.h"
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
 
 bool hosting;
 bool KAILLERA_CORE_INITIALIZED = false;
@@ -20,6 +26,7 @@ int flash = 1;
 int beep = 1;
 int timestamp = 1;
 int joinleave = 1;
+bool newSession = false;
 
 HWND kaillera_sdlg_TXT_MSG;
 HWND kaillera_sdlg_IDC_FLASH;
@@ -256,11 +263,20 @@ int kaillera_sdlg_frameno = 0;
 int kaillera_sdlg_delay = -1;
 
 bool workaround[] = {false,false};
-
 //=======================================================================
-bool kaillera_RecordingEnabled(){
+bool kaillera_RecordingEnabled() 
+{
 	return SendMessage(GetDlgItem(kaillera_sdlg, CHK_REC), BM_GETCHECK, 0, 0)==BST_CHECKED;
 }
+
+bool ChatLogEnabled()
+{
+	if ((SendMessage(GetDlgItem(kaillera_sdlg, IDC_CHATL), BM_GETCHECK, 0, 0)) == BST_CHECKED)
+		return true;
+	else
+		return false;
+}
+
 int kaillera_sdlg_MODE;
 bool kaillera_sdlg_toggle = false;
 
@@ -497,7 +513,8 @@ void kaillera_goutp(char * line, COLORREF color=1){
 // The following functions can be modified if you want to change the colors
 // TODO: Allow the user to customize the colors!
 
-void __cdecl kaillera_gdebug(char * arg_0, ...) {
+void __cdecl kaillera_gdebug(char * arg_0, ...) //GAMEROOM
+{
 	char V8[1024];
 	char V88[2084];
 	sprintf_s(V8, 1020, "%s\r\n", arg_0);
@@ -508,7 +525,8 @@ void __cdecl kaillera_gdebug(char * arg_0, ...) {
 	kaillera_goutp(V88);
 }
 
-void __cdecl kaillera_gdebug_green(char * arg_0, ...) {
+void __cdecl kaillera_gdebug_green(char * arg_0, ...) //GAMEROOM SERVER
+{
 	char V8[1024];
 	char V88[2084];
 	sprintf_s(V8, 1020, "%s\r\n", arg_0);
@@ -528,6 +546,7 @@ void __cdecl kaillera_gdebug_gray(char * arg_0, ...) {
 	vsnprintf_s(V88, 2084, 2082, V8, args);
 	va_end (args);
 	kaillera_goutp(V88, 0x660000);
+	ChatLog(V88);
 }
 
 void __cdecl kaillera_core_debug(char * arg_0, ...) {
@@ -539,8 +558,10 @@ void __cdecl kaillera_core_debug(char * arg_0, ...) {
 	vsnprintf_s(V88, 2084, 2082, V8, args);
 	va_end (args);
 	re_append(kaillera_sdlg_partchat, V88, 0x33333333);
+	ChatLog(V88);
 }
-void __cdecl kaillera_ui_motd(char * arg_0, ...) {
+void __cdecl kaillera_ui_motd(char * arg_0, ...) //SERVER ANNOUNCE
+{
 	char V8[1024];
 	char V88[2084];
 	sprintf_s(V8, 1020, "%s\r\n", arg_0);
@@ -549,6 +570,7 @@ void __cdecl kaillera_ui_motd(char * arg_0, ...) {
 	vsnprintf_s(V88, 2084, 2082, V8, args);
 	va_end (args);
 	re_append(kaillera_sdlg_partchat, V88, 0x00336633);
+	ChatLog(V88);
 }
 void __cdecl kaillera_error_callback(char * arg_0, ...) {
 	char V8[1024];
@@ -562,7 +584,8 @@ void __cdecl kaillera_error_callback(char * arg_0, ...) {
 	re_append(kaillera_sdlg_partchat, V88, 0x000000FF);
 }
 
-void __cdecl kaillera_ui_debug(char * arg_0, ...) {
+void __cdecl kaillera_ui_debug(char * arg_0, ...) //JOIN/LEAVE
+{
 	char V8[1024];
 	char V88[2084];
 	sprintf_s(V8, 1020, "%s\r\n", arg_0);
@@ -572,9 +595,11 @@ void __cdecl kaillera_ui_debug(char * arg_0, ...) {
 	va_end (args);
 
 	re_append(kaillera_sdlg_partchat, V88, /*0x00777777*/0x660000);
+	ChatLog(V88);
 }
 
-void __cdecl kaillera_outpf(char * arg_0, ...) {
+void __cdecl kaillera_outpf(char * arg_0, ...) //GAME CHAT
+{
 	char V8[1024];
 	char V88[2084];
 	sprintf_s(V8, 1020, "%s\r\n", arg_0);
@@ -584,6 +609,7 @@ void __cdecl kaillera_outpf(char * arg_0, ...) {
 	va_end (args);
 
 	re_append(kaillera_sdlg_partchat, V88, 0x00000000);
+	ChatLog(V88);
 }
 
 
@@ -1192,6 +1218,7 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 		{
 			kaillera_sdlg = hDlg;
 			{
+				newSession = true;
 				char xx[256];
 				wsprintf(xx, "Connecting to %s", kaillera_sdlg_NAME);
 				SetWindowText(hDlg, xx);
@@ -1332,8 +1359,9 @@ LRESULT CALLBACK KailleraServerDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 			//SetWindowPos(GetDlgItem(hDlg, TXT_CHAT),HWND_TOP,0,(int)(vPerc*iHeight)-hTxtBox,(int)(hPerc*iWidth)-2*wButton,hTxtBox,0);
 			SetWindowPos(GetDlgItem(hDlg, TXT_CHAT),HWND_TOP,0,(int)(vPerc*iHeight)-hTxtBox,(int)(hPerc*iWidth)-1.30*wButton,hTxtBox,1);
 			SetWindowPos(GetDlgItem(hDlg, IDC_CHAT),HWND_TOP,(int)(hPerc*iWidth)-2*wButton,(int)(vPerc*iHeight)-hTxtBox,0,0,SWP_NOSIZE);
+			SetWindowPos(GetDlgItem(hDlg, IDC_CHATL),HWND_TOP,(int)(hPerc*iWidth)-3*wButton,(int)(vPerc*iHeight)-hTxtBox,0,0,SWP_NOSIZE);
 			SetWindowPos(GetDlgItem(hDlg, IDC_CREATE),HWND_TOP,(int)(hPerc*iWidth)-wButton,(int)(vPerc*iHeight)-hTxtBox,0,0,SWP_NOSIZE);
-			SetWindowPos(GetDlgItem(hDlg, TXT_HOST),HWND_TOP,225,(int)(vPerc*iHeight)-hTxtBox,(int)(hPerc*iWidth)-3.50*wButton,hTxtBox,1);
+			SetWindowPos(GetDlgItem(hDlg, TXT_HOST),HWND_TOP,225,(int)(vPerc*iHeight)-hTxtBox,(int)(hPerc*iWidth)-3.50*wButton,hTxtBox,1);//CUSTOM GAME
 
 			//300 + 120 = 420 pixels wide
 			// bottom half
@@ -2049,12 +2077,32 @@ LRESULT CALLBACK KailleraServerSelectDialogProc(HWND hDlg, UINT uMsg, WPARAM wPa
 			if(((LPNMHDR)lParam)->code==NM_RCLICK && ((LPNMHDR)lParam)->hwndFrom==KLSListLv.handle){
 				KLSListPING();
 			}
-
 			break;
 		};
 		return 0;
 }
 
+void ChatLog(char * msg)
+{
+	if (ChatLogEnabled())
+	{
+	fstream fLog;
+	fLog.open("ChatLog.txt", fstream::out | fstream::app);
+
+	if (newSession == true)
+	{
+		char sessionMark[351];
+		wsprintf(sessionMark, "*================*\r\nNEW CHAT SESSION AT: %s [%s] \r\n*================*\r\n", kaillera_sdlg_ip, kaillera_sdlg_NAME);
+		fLog.write(sessionMark, strlen(sessionMark));
+		newSession = false;
+	}
+
+	fLog.write(msg, strlen(msg));
+	fLog.write("\r\n", 4);
+	
+	fLog.close();
+	}
+}
 
 void kaillera_GUI(){
 	INITCOMMONCONTROLSEX icx;

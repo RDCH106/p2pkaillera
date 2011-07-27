@@ -9,5 +9,7 @@ void kaillera_ui_chat_send(char * xxx);
 //char * callback_checksize(char * msg);
 
 bool kaillera_RecordingEnabled();
+bool ChatLogEnabled();
+void ChatLog(char * msg);
 
 

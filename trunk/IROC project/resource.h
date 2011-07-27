@@ -20,7 +20,6 @@
 #define KAILLERA_PM                     110
 #define KAILLERA_OPTIONS                111
 #define IDB_IROCAV                      113
-#define IDB_BITMAP1                     115
 #define IDB_IRO1                        115
 #define IDC_PORT                        1000
 #define IDC_CONNECT                     1001
@@ -107,6 +106,8 @@
 #define TXT_HOST                        1083
 #define IDC_APPNAME                     1085
 #define IDC                             1086
+#define IDC_CHECK3                      1089
+#define IDC_CHATL                       1089
 
 // Next default values for new objects
 // 
@@ -114,7 +115,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        116
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1087
+#define _APS_NEXT_CONTROL_VALUE         1090
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
