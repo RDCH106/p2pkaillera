@@ -29,4 +29,4 @@ These functions can all be found in kaillera_ui.cpp.
 
 == Patches ==
 
-The patches for Open Kaillera and Ownaclient fix all vulnerabilities listed above.  
+The patches for Open Kaillera and Ownaclient will shortly be updated to fix Issue 1 in Ownaclient, all other issues are patched so far.
