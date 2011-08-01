@@ -1,4 +1,6 @@
-This is a list of Kaillera vulnerabilities.
+This is a list of Kaillera vulnerabilities
+
+=Client-side vulnerabilities=
 
 = Open Kaillera Vulnerabilities =
 
@@ -62,6 +64,12 @@ This script here on Exploit-db demonstrates several buffer overflow vulnerabilit
 This Metasploit module will exploit the 0.86 server DoS vulnerability:
 
 http://metasploit.com/svn/framework3/trunk/modules/auxiliary/dos/windows/games/kaillera.rb
+
+= Caveats =
+
+In terms of real-world exploitability, most of these issues require a rogue / malicious Kaillera server.  
+
+However, there are several issues which can be triggered client-side (even with servers like Emulinker and EMX which are supposed to protect against "hackers").  
 
 == Patches ==
 
