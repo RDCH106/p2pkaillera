@@ -1,4 +1,4 @@
-This is a list of Kaillera vulnerabilities, found by myself unless otherwise noted.
+This is a list of Kaillera vulnerabilities.
 
 = Ownaclient Vulnerabilites =
 
@@ -29,7 +29,26 @@ kaillera_ui_debug
 kaillera_outpf
 
 
-These functions can all be found in kaillera_ui.cpp.  
+These functions can all be found in kaillera_ui.cpp. 
+
+=Kaillera.com/Anti3d Client=
+
+1.  There is a buffer overflow in handling of long usernames which can be triggered via various methods in the Kaillera protocol.  
+
+2.  Denial of service if null byte is used in a username (tested with chat).
+
+3.  Local Denial of Service (paste long string into Custom IP input box)
+
+=Supraclient=
+
+1.  Local buffer overflow in IP and Quit Message input boxes.
+
+2. Multiple buffer overflows in handling of overlong messages coming from Server (MOTD, Quit message, and many others)
+
+3.  DoS with long username in Server Status packet.
+
+4.  Extremely long emulator name causes access violation when hosting game.
+
 
 =Exploits=
 
