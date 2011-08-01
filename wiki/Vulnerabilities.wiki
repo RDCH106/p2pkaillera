@@ -66,3 +66,5 @@ http://metasploit.com/svn/framework3/trunk/modules/auxiliary/dos/windows/games/k
 == Patches ==
 
 The patches for Open Kaillera and Ownaclient will shortly be updated to fix Issue 1 in Ownaclient, all other issues are patched so far.
+
+0.86 Server Issue #2 patched at: http://aluigi.org/patches/kailleraexfix.lpatch
