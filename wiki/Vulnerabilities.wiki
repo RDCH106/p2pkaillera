@@ -15,9 +15,18 @@ This is a list of known vulnerabilities in Ownaclient and Open Kaillera
 kaillera_gdebug
 
 kaillera_core_debug
+
 kaillera_ui_motd
+
 kaillera_error_callback
+
 kaillera_ui_debug
+
 kaillera_outpf
 
-These functions can be found in kaillera_ui.cpp.  
+
+These functions can all be found in kaillera_ui.cpp.  
+
+== Patches ==
+
+The patches for Open Kaillera and Ownaclient fix all vulnerabilities listed above.  
