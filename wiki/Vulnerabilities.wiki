@@ -3,7 +3,7 @@ This is a list of known vulnerabilities in Ownaclient and Open Kaillera, found b
 = Ownaclient Vulnerabilites =
 
 
-1.  Function re_append in Ownaclient introduces vulnerabilities not found in Open Kaillera relating to handling large amounts of message spam.
+1.  Function re_append in Ownaclient introduces a buffer overflow vulnerability not found in Open Kaillera relating to handling large amounts of message spam.
 
 2.  Ownaclient inherits #1 in Open Kaillera.
 
