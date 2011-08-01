@@ -33,7 +33,7 @@ These functions can all be found in kaillera_ui.cpp.
 
 =Exploits=
 
-This script here on Exploit-db demonstrates issue #1 in Open Kaillera: 
+This script here on Exploit-db demonstrates several buffer overflow vulnerabilities in Open Kaillera, the original Kaillera client, and Supraclient: http://www.exploit-db.com/exploits/17460/
 
 == Patches ==
 
