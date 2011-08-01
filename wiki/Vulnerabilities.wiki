@@ -13,6 +13,7 @@ This is a list of known vulnerabilities in Ownaclient and Open Kaillera
 1.  The following functions used insecure string copying resulting in buffer overflows:
 
 kaillera_gdebug
+
 kaillera_core_debug
 kaillera_ui_motd
 kaillera_error_callback
