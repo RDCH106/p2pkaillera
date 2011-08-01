@@ -1,4 +1,4 @@
-This is a list of Kaillera vulnerabilities
+This is a list of Kaillera vulnerabilities discovered in a number of clients and servers.
 
 = Open Kaillera Vulnerabilities =
 
