@@ -49,10 +49,19 @@ These functions can all be found in kaillera_ui.cpp.
 
 4.  Extremely long emulator name causes access violation when hosting game.
 
+=Kaillera 0.86 Server Vulnerabilities =
+
+1.  Denial of Service Attack if malformed packet sent after "hello" packet.  
+
+2.  Buffer overflow found by Luigi Auriemma: http://aluigi.org/adv/kailleraex-adv.txt
 
 =Exploits=
 
 This script here on Exploit-db demonstrates several buffer overflow vulnerabilities in Open Kaillera, the original Kaillera client, and Supraclient: http://www.exploit-db.com/exploits/17460/
+
+This Metasploit module will exploit the 0.86 server DoS vulnerability:
+
+http://metasploit.com/svn/framework3/trunk/modules/auxiliary/dos/windows/games/kaillera.rb
 
 == Patches ==
 
