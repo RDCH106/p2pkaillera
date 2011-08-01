@@ -1,4 +1,4 @@
-This is a list of known vulnerabilities in Ownaclient and Open Kaillera, found by myself.
+This is a list of Kaillera vulnerabilities, found by myself unless otherwise noted.
 
 = Ownaclient Vulnerabilites =
 
