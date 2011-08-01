@@ -23,7 +23,7 @@ These functions can all be found in kaillera_ui.cpp.
 = Ownaclient Vulnerabilites =
 
 
-1.  Function re_append in Ownaclient introduces a buffer overflow vulnerability not found in Open Kaillera relating to handling large amounts of message spam.
+1.  Function re_append in uihlp.h of Ownaclient introduces a buffer overflow vulnerability relating to handling long strings spammed repeatedly in the server.
 
 2.  Ownaclient inherits Issue #1 from Open Kaillera (because its a modification of that client).  In v18 kaillera_ui_motd is patched, all other similar functions are left vulnerable.
 
