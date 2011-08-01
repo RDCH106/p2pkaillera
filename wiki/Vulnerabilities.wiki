@@ -7,6 +7,10 @@ This is a list of known vulnerabilities in Ownaclient and Open Kaillera
 
 2.  Ownaclient inherits #1 in Open Kaillera.
 
+3.  Two off-by-one overflows in Ownaclient v17 relating to username and quit message (not serious because they are local).  Patched in v18.
+
+4.  Crash involved locally in sending long private message.  Patched in v18.
+
 = Open Kaillera Vulnerabilities =
 
 
@@ -26,6 +30,10 @@ kaillera_outpf
 
 
 These functions can all be found in kaillera_ui.cpp.  
+
+=Exploits=
+
+This script here on Exploit-db demonstrates issue #1 in Open Kaillera: 
 
 == Patches ==
 
