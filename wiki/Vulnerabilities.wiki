@@ -1,7 +1,5 @@
 This is a list of Kaillera vulnerabilities
 
-=Client-side vulnerabilities=
-
 = Open Kaillera Vulnerabilities =
 
 
@@ -73,6 +71,10 @@ However, there are several issues which can be triggered client-side (even with 
 
 == Patches ==
 
-The patches for Open Kaillera and Ownaclient will shortly be updated to fix Issue 1 in Ownaclient, all other issues are patched so far.
+This Google Code website offers patches for Ownaclient v18 (latest) and Open Kaillera (latest compiled version).  
 
 0.86 Server Issue #2 patched at: http://aluigi.org/patches/kailleraexfix.lpatch
+
+=Todo=
+
+Patch Issue #1 in Ownaclient (recently discovered through more testing)
