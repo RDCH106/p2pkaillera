@@ -3,7 +3,7 @@ This is a list of Kaillera vulnerabilities
 = Open Kaillera Vulnerabilities =
 
 
-1.  The following functions used insecure string copying resulting in buffer overflows:
+1.  The following functions use insecure string copying resulting in buffer overflows:
 
 kaillera_gdebug
 
