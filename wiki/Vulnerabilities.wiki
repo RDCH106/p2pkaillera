@@ -75,6 +75,8 @@ This Google Code website offers patches for Ownaclient v18 (latest) and Open Kai
 
 0.86 Server Issue #2 patched at: http://aluigi.org/patches/kailleraexfix.lpatch
 
+No known patches for Supraclient or Kaillera.com/Anti3d.  They are old and full of holes, I advise you to upgrade your client if you run these.
+
 =Todo=
 
 Patch Issue #1 in Ownaclient (recently discovered through more testing)
