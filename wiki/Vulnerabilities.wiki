@@ -3,36 +3,22 @@ This is a list of Kaillera vulnerabilities discovered in a number of clients and
 = Open Kaillera Vulnerabilities =
 
 
-1.  The following functions use insecure string copying resulting in buffer overflows:
+1.  The following functions in kaillera_ui.cpp use insecure string copying resulting in buffer overflows:
 
-kaillera_gdebug
-
-kaillera_core_debug
-
-kaillera_ui_motd
-
-kaillera_error_callback
-
-kaillera_ui_debug
-
-kaillera_outpf
-
-
-These functions can all be found in kaillera_ui.cpp. 
+kaillera_gdebug, kaillera_core_debug, kaillera_ui_motd, kaillera_error_callback,kaillera_ui_debug, and kaillera_outpf
 
 = Ownaclient Vulnerabilites =
 
+1.  Function re_append in uihlp.h of Ownaclient introduces remote buffer overflow in handling large amounts of text: can be exploited client-side for DoS effect in Emulinker and EMX  with:(/msg, /setemu, gamechat) (no reliable exploitation thanks to /GS).
 
-1.  Function re_append in uihlp.h of Ownaclient introduces remote buffer overflow in handling large amounts of text: can be exploited for DoS effect in Emulinker and EMX  with:(/msg, /setemu, gamechat) (no reliable exploitation thanks to /GS).
+-Fixed in upload 2 of Ownaclient.
 
 2.  Ownaclient inherits Issue #1 from Open Kaillera (because its a modification of that client).  In v18 kaillera_ui_motd is patched, however all other similar functions are left vulnerable.
+-Patched in upload 1 of Ownaclient.
 
-3.  Two off-by-one overflows exist in Ownaclient v17 relating to username and quit message (not serious because they are local).  Patched in v18.
+3.  Two off-by-one overflows exist in Ownaclient v17 relating to username and quit message (not serious because they are local).  Patched in v18 of Owna's client after I reported it to him.
 
-4.  Crash involved locally in sending long private message.  Patched in v18.
-
-
-Fixed in upload 2 of Ownaclient.
+4.  Crash involved locally in sending long private message.  Patched in v18 of Owna's client after I reported it to him.
 
 =Kaillera.com/Anti3d Client=
 
