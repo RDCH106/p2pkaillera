@@ -31,6 +31,11 @@ These functions can all be found in kaillera_ui.cpp.
 
 4.  Crash involved locally in sending long private message.  Patched in v18.
 
+5.  Remote buffer overflow in handling of several commands
+(/me, /msg, /setemu, gamechat), which can be exploited to cause a crash on Emulinker/EMX servers (no reliable exploitation thanks to /GS).
+
+Fixed in upload 2 of Ownaclient.
+
 =Kaillera.com/Anti3d Client=
 
 1.  There is a buffer overflow in handling of long usernames which can be triggered via various methods in the Kaillera protocol.  
@@ -76,7 +81,3 @@ This Google Code website offers patches for Ownaclient v18 (latest) and Open Kai
 0.86 Server Issue #2 patched at: http://aluigi.org/patches/kailleraexfix.lpatch
 
 No known patches for Supraclient or Kaillera.com/Anti3d.  They are old and full of holes, I advise you to upgrade your client if you run these.
-
-=Todo=
-
-Patch Issue #1 in Ownaclient (recently discovered through more testing)
