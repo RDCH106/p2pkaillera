@@ -14,11 +14,16 @@ kaillera_gdebug, kaillera_core_debug, kaillera_ui_motd, kaillera_error_callback,
 -Fixed in upload 2 of Ownaclient.
 
 2.  Ownaclient inherits Issue #1 from Open Kaillera (because its a modification of that client).  In v18 kaillera_ui_motd is patched, however all other similar functions are left vulnerable.
+
 -Patched in upload 1 of Ownaclient.
 
-3.  Two off-by-one overflows exist in Ownaclient v17 relating to username and quit message (not serious because they are local).  Patched in v18 of Owna's client after I reported it to him.
+3.  Two off-by-one overflows exist in Ownaclient v17 relating to username and quit message (not serious because they are local).  
 
-4.  Crash involved locally in sending long private message.  Patched in v18 of Owna's client after I reported it to him.
+-Patched in v18 of Owna's client after I reported it to him.
+
+4.  Crash involved locally in sending long private message.
+  
+-Patched in v18 of Owna's client after I reported it to him.
 
 =Kaillera.com/Anti3d Client=
 
