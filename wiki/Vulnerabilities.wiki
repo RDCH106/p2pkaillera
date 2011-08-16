@@ -22,7 +22,7 @@ kaillera_gdebug, kaillera_core_debug, kaillera_ui_motd, kaillera_error_callback,
 -Patched in v18 of Owna's client after I reported it to him.
 
 4.  Crash involved locally in sending long private message.
-  
+
 -Patched in v18 of Owna's client after I reported it to him.
 
 =Kaillera.com/Anti3d Client=
