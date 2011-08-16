@@ -51,7 +51,7 @@ No patch available.
 
 2.  Buffer overflow found by Luigi Auriemma: http://aluigi.org/adv/kailleraex-adv.txt
 
-Patched available at: http://aluigi.org/patches/kailleraexfix.lpatch
+Patch available at: http://aluigi.org/patches/kailleraexfix.lpatch
 
 
 =Exploits=
