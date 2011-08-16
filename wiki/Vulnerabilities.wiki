@@ -23,7 +23,7 @@ These functions can all be found in kaillera_ui.cpp.
 = Ownaclient Vulnerabilites =
 
 
-1.  Function re_append in uihlp.h of Ownaclient introduces a buffer overflow vulnerability relating to handling long strings spammed repeatedly in the server.
+1.  Function re_append in uihlp.h of Ownaclient introduces remote buffer overflow in handling large amounts of text: can be exploited for DoS effect in Emulinker and EMX  with:(/msg, /setemu, gamechat) (no reliable exploitation thanks to /GS).
 
 2.  Ownaclient inherits Issue #1 from Open Kaillera (because its a modification of that client).  In v18 kaillera_ui_motd is patched, however all other similar functions are left vulnerable.
 
@@ -31,8 +31,6 @@ These functions can all be found in kaillera_ui.cpp.
 
 4.  Crash involved locally in sending long private message.  Patched in v18.
 
-5.  Remote buffer overflow in handling of several commands
-(/me, /msg, /setemu, gamechat), which can be exploited to cause a crash on Emulinker/EMX servers (no reliable exploitation thanks to /GS).
 
 Fixed in upload 2 of Ownaclient.
 
