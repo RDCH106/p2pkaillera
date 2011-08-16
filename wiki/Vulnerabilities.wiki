@@ -47,7 +47,12 @@ kaillera_gdebug, kaillera_core_debug, kaillera_ui_motd, kaillera_error_callback,
 
 1.  Denial of Service Attack if malformed packet sent after "hello" packet.  
 
+No patch available.
+
 2.  Buffer overflow found by Luigi Auriemma: http://aluigi.org/adv/kailleraex-adv.txt
+
+Patched available at: http://aluigi.org/patches/kailleraexfix.lpatch
+
 
 =Exploits=
 
@@ -66,7 +71,5 @@ However, there are several issues which can be triggered client-side (even with 
 == Patches ==
 
 This Google Code website offers patches for Ownaclient v18 (latest) and Open Kaillera (latest compiled version).  
-
-0.86 Server Issue #2 patched at: http://aluigi.org/patches/kailleraexfix.lpatch
 
 No known patches for Supraclient or Kaillera.com/Anti3d (mostly because there is no source code).  They are old and full of holes, I advise you to upgrade your client if you run these.
